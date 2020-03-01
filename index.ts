@@ -21,7 +21,7 @@ import { Screen } from "./utils/Screen";
 
 let
 	menuPool = []
-;
+	;
 
 export default class NativeUI {
 	public readonly Id: string = UUIDV4();
@@ -119,22 +119,22 @@ export default class NativeUI {
 		/*if(!toggle) {
 			mp.events.callRemote('server:clientDebug', `Visible = false. _justOpenedFromPool: ${this._justOpenedFromPool}`);
 		}*/
-		if(toggle) {
+		if (toggle) {
 			this.UpdateDescriptionCaption();
 		}
-		if(this._justOpenedFromPool === true) {
+		if (this._justOpenedFromPool === true) {
 			this._justOpenedFromPool = false;
 			return;
 		}
-		if(toggle) {
+		if (toggle) {
 			this._justOpened = true;
 			this.MenuOpen.emit();
-			if(this.ParentMenu === null) {
-				if(!menuPool.includes(this) && this !== this._poolOpening) {
+			if (this.ParentMenu === null) {
+				if (!menuPool.includes(this) && this !== this._poolOpening) {
 					const previousMenu = (menuPool.length) ? menuPool[menuPool.length - 1] : null;
 					menuPool.push(this);
 					//mp.events.callRemote('server:clientDebug', 'Adding to menu pool ' + menuPool.length);
-					if(previousMenu !== this._poolOpening && previousMenu !== null) {
+					if (previousMenu !== this._poolOpening && previousMenu !== null) {
 						previousMenu._justClosedFromPool = true;
 						previousMenu.Visible = false;
 						//mp.events.callRemote('server:clientDebug', 'Closing current');
@@ -142,26 +142,26 @@ export default class NativeUI {
 				}
 			}
 		} else {
-			if(this._justClosedFromPool === true) {
+			if (this._justClosedFromPool === true) {
 				this._justClosedFromPool = false;
 				return;
 			}
-			if(this.ParentMenu === null && menuPool.includes(this) && menuPool.length) {
-				if(menuPool[menuPool.length - 1] === this) {
+			if (this.ParentMenu === null && menuPool.includes(this) && menuPool.length) {
+				if (menuPool[menuPool.length - 1] === this) {
 					menuPool.pop();
 					this._justOpenedFromPool = true;
-					if(!menuPool.length) {
+					if (!menuPool.length) {
 						this._poolOpening = null;
 					}
 					//mp.events.callRemote('server:clientDebug', 'Removing from menu pool ' + menuPool.length);
 				}
-				if(menuPool.length) {
+				if (menuPool.length) {
 					this._poolOpening = menuPool[menuPool.length - 1];
 					menuPool[menuPool.length - 1].Visible = true;
 					//mp.events.callRemote('server:clientDebug', 'Pool opening next in line menu');
 				}
 			}
-			if(menuPool.length === 0) {
+			if (menuPool.length === 0) {
 				mp.game.invoke('0x8DB8CFFD58B62552'.toUpperCase(), 1);
 			}
 		}
@@ -282,10 +282,10 @@ export default class NativeUI {
 			new Point(
 				190 + this.offset.X,
 				147 +
-					37 * (this.MaxItemsOnScreen + 1) +
-					this.offset.Y -
-					37 +
-					this.extraOffset
+				37 * (this.MaxItemsOnScreen + 1) +
+				this.offset.Y -
+				37 +
+				this.extraOffset
 			),
 			new Size(50, 50)
 		);
@@ -294,10 +294,10 @@ export default class NativeUI {
 			new Point(
 				0 + this.offset.X,
 				144 +
-					38 * (this.MaxItemsOnScreen + 1) +
-					this.offset.Y -
-					37 +
-					this.extraOffset
+				38 * (this.MaxItemsOnScreen + 1) +
+				this.offset.Y -
+				37 +
+				this.extraOffset
 			),
 			new Size(431, 18),
 			new Color(0, 0, 0, 200)
@@ -307,11 +307,11 @@ export default class NativeUI {
 			new Point(
 				0 + this.offset.X,
 				144 +
-					18 +
-					38 * (this.MaxItemsOnScreen + 1) +
-					this.offset.Y -
-					37 +
-					this.extraOffset
+				18 +
+				38 * (this.MaxItemsOnScreen + 1) +
+				this.offset.Y -
+				37 +
+				this.extraOffset
 			),
 			new Size(431, 18),
 			new Color(0, 0, 0, 200)
@@ -418,7 +418,7 @@ export default class NativeUI {
 
 	public RemoveItem(item: UIMenuItem) {
 		for (let i = 0; i < this.MenuItems.length; i++) {
-			if(this.MenuItems[i] === item) {
+			if (this.MenuItems[i] === item) {
 				this.MenuItems.splice(i, 1);
 				break;
 			}
@@ -439,7 +439,7 @@ export default class NativeUI {
 		this._activeItem = NativeUI.__maxItems - (NativeUI.__maxItems % this.MenuItems.length);
 		this._maxItem = this.MaxItemsOnScreen;
 		this._minItem = 0;
-		if(this._visible) {
+		if (this._visible) {
 			this.UpdateDescriptionCaption();
 		}
 	}
@@ -454,7 +454,7 @@ export default class NativeUI {
 	}
 
 	private CleanUp(closeChildren: boolean = false) {
-		if(closeChildren) {
+		if (closeChildren) {
 			this.Children.forEach(m => {
 				m.Close(true);
 			});
@@ -596,11 +596,11 @@ export default class NativeUI {
 		return Screen.IsMouseInBounds(topLeft, new Size(labelSizeX, 38))
 			? 1
 			: Screen.IsMouseInBounds(
-					new Point(topLeft.X + labelSizeX, topLeft.Y),
-					new Size(arrowSizeX, 38)
-			  )
-			? 2
-			: 0;
+				new Point(topLeft.X + labelSizeX, topLeft.Y),
+				new Size(arrowSizeX, 38)
+			)
+				? 2
+				: 0;
 	}
 
 	public ProcessMouse() {
@@ -914,7 +914,7 @@ export default class NativeUI {
 	}
 
 	public BindMenuToItem(menuToBind: NativeUI, itemToBindTo: UIMenuItem) {
-		if(!this.MenuItems.includes(itemToBindTo)) {
+		if (!this.MenuItems.includes(itemToBindTo)) {
 			this.AddItem(itemToBindTo);
 		}
 		menuToBind.ParentMenu = this;
@@ -938,20 +938,20 @@ export default class NativeUI {
 	}
 
 	public CalculateDescription() {
-		if(this.MenuItems.length > 0) {
-			if(this.recalculateDescriptionNextFrame > 0) {
+		if (this.MenuItems.length > 0) {
+			if (this.recalculateDescriptionNextFrame > 0) {
 				this.recalculateDescriptionNextFrame--;
 			}
 			this._descriptionText.caption = this.MenuItems[this._activeItem % this.MenuItems.length].Description;
 			this.RecalculateDescriptionPosition();
-			if(this._descriptionText.caption && this.MenuItems[this._activeItem % this.MenuItems.length].Description.trim() !== "") {
+			if (this._descriptionText.caption && this.MenuItems[this._activeItem % this.MenuItems.length].Description.trim() !== "") {
 				const numLines = Screen.GetLineCount(this._descriptionText.caption, this._descriptionText.pos, this._descriptionText.font, this._descriptionText.scale, this._descriptionText.Wrap);
 
 				this._descriptionRectangle.size = new Size(
 					431 + this.WidthOffset,
 					(numLines * 25) + 15
 				);
-				if(numLines === 0) {
+				if (numLines === 0) {
 					this.recalculateDescriptionNextFrame++;
 				}
 			}
@@ -970,7 +970,7 @@ export default class NativeUI {
 				this._descriptionRectangle.LoadTextureDictionary();
 			if (!this._upAndDownSprite.IsTextureDictionaryLoaded)
 				this._upAndDownSprite.LoadTextureDictionary();
-			if(!this.recalculateDescriptionNextFrame)
+			if (!this.recalculateDescriptionNextFrame)
 				this.recalculateDescriptionNextFrame++;
 		}
 		this._mainMenu.Draw();
@@ -1020,10 +1020,10 @@ export default class NativeUI {
 			this._upAndDownSprite.pos = new Point(
 				190 + this.offset.X + this.WidthOffset / 2,
 				147 +
-					37 * (this.MaxItemsOnScreen + 1) +
-					this.offset.Y -
-					37 +
-					this.extraOffset
+				37 * (this.MaxItemsOnScreen + 1) +
+				this.offset.Y -
+				37 +
+				this.extraOffset
 			);
 
 			this._extraRectangleUp.Draw();
@@ -1045,16 +1045,18 @@ export default class NativeUI {
 	}
 }
 
-exports.Menu = NativeUI;
-exports.UIMenuItem = UIMenuItem;
-exports.UIMenuListItem = UIMenuListItem;
-exports.UIMenuDynamicListItem = UIMenuDynamicListItem;
-exports.UIMenuCheckboxItem = UIMenuCheckboxItem;
-exports.UIMenuSliderItem = UIMenuSliderItem;
-exports.BadgeStyle = BadgeStyle;
-exports.Point = Point;
-exports.Size = Size;
-exports.Color = Color;
-exports.Font = Font;
-exports.ItemsCollection = ItemsCollection;
-exports.ListItem = ListItem;
+export {
+	NativeUI as Menu,
+	UIMenuItem as UIMenuItem,
+	UIMenuListItem as UIMenuListItem,
+	UIMenuDynamicListItem as UIMenuDynamicListItem,
+	UIMenuCheckboxItem as UIMenuCheckboxItem,
+	UIMenuSliderItem as UIMenuSliderItem,
+	BadgeStyle as BadgeStyle,
+	Point as Point,
+	Size as Size,
+	Color as Color,
+	Font as Font,
+	ItemsCollection as ItemsCollection,
+	ListItem as ListItem
+}
